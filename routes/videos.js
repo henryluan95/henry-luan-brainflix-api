@@ -22,7 +22,7 @@ router
     const newVideo = {
       ...req.body,
       channel: "Scotty Cranmer",
-      image: "https://i.imgur.com/i6S8m7I.jpg",
+      image: "http://localhost:8080/Upload-video-preview.jpg",
       views: "0",
       likes: "0",
       duration: "4:20",
@@ -42,25 +42,29 @@ router
 //Set up a route for /videos/:id endpoint
 router.get("/:id", (req, res) => {
   //get id from url
-  const requestedID = String(req.params.id);
+  const requestedVideoId = String(req.params.id);
   //get existing data
   const videos = readVideos();
+  //Get requested video
+  const requestedVideo = videos.find((video) => video.id === requestedVideoId);
   //handle no data passed in url
-  if (!videos.find((video) => video.id === requestedID)) {
+  if (!requestedVideo) {
     return res.status(404).send("Can't find video, please use a different id");
   }
   //send back response with matching data
-  return res.status(200).json(videos.find((video) => video.id === requestedID));
+  return res.status(200).json(requestedVideo);
 });
 
 //Set up a route for /videos/:id/comments endpoint
 router.post("/:id/comments", (req, res) => {
   //get id from url
-  const requestedID = String(req.params.id);
+  const currentVideoId = String(req.params.id);
   //Get existing data
   const videos = readVideos();
   //find the index of current video that we adding comments to
-  const indexOfVideo = videos.findIndex((video) => video.id === requestedID);
+  const indexOfCurrentVideo = videos.findIndex(
+    (video) => video.id === currentVideoId
+  );
   //create a new comment
   const newComment = {
     name: req.body.name,
@@ -69,33 +73,39 @@ router.post("/:id/comments", (req, res) => {
     timestamp: +new Date(),
   };
   //modify the videos array
-  videos[indexOfVideo].comments.push(newComment);
+  videos[indexOfCurrentVideo].comments.push(newComment);
   //write it into our data
   writeVideos(videos);
   //send back a response of newComment
-  res.status(200).json(newComment);
+  res.status(201).json(newComment);
 });
 
-//Set up a route for /videos/:videoId/comments/:commentId for deleting a comment
+//Set up a route for /videos/:videoId/comments/:commentId for deleting a comment.
+//NOTE: WE ARE USING TIMESTAMP TO DELETE COMMENT BECAUSE EXISTING DATA DOES NOT HAVE ID
 router.delete("/:videoId/comments/:commentId", (req, res) => {
   //get id from url
-  const requestedId = String(req.params.videoId);
+  const currentVideoId = String(req.params.videoId);
   //get id of comment
   const commentId = Number(req.params.commentId);
   //Get existing data
   const videos = readVideos();
   //find the index of current video that we adding comments to
-  const indexOfVideo = videos.findIndex((video) => video.id === requestedId);
+  const indexOfCurrentVideo = videos.findIndex(
+    (video) => video.id === currentVideoId
+  );
   //find the index of current comment in the current video object
-  const indexOfComment = videos[indexOfVideo].comments.findIndex(
+  const indexOfComment = videos[indexOfCurrentVideo].comments.findIndex(
     (comment) => comment.timestamp === commentId
   );
   //delete comment from comments object
-  videos[indexOfVideo].comments.splice(indexOfComment, 1);
+  const deletedComment = videos[indexOfCurrentVideo].comments.splice(
+    indexOfComment,
+    1
+  );
   //write it into our data
   writeVideos(videos);
   //send back a response
-  res.status(200).json(videos[indexOfVideo].comments.splice(indexOfComment, 1));
+  res.status(200).json(deletedComment);
 });
 
 module.exports = router;
