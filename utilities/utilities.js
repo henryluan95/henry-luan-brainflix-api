@@ -5,4 +5,9 @@ const readVideos = () => {
   return JSON.parse(fs.readFileSync("./data/videos.json"));
 };
 
-module.exports = readVideos;
+//Create a function to write data
+const writeVideos = (videos) => {
+  return fs.writeFileSync("./data/videos.json", JSON.stringify(videos));
+};
+
+module.exports = { readVideos, writeVideos };
