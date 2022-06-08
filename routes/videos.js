@@ -3,6 +3,7 @@ const { v4: uuid } = require("uuid");
 const fs = require("fs");
 const router = express.Router();
 const { readVideos, writeVideos } = require("../utilities/utilities");
+const { channel } = require("diagnostics_channel");
 
 //Set up a route for /videos endpoint -- get and post
 router
@@ -11,8 +12,17 @@ router
   .get(function (_req, res) {
     //get data
     const videos = readVideos();
+    //filter out videos to only return id, channel, title, image.
+    const filteredVideos = videos.map((video) => {
+      return {
+        id: video.id,
+        channel: video.channel,
+        title: video.title,
+        image: video.image,
+      };
+    });
     //send back data
-    return res.status(200).json(videos);
+    return res.status(200).json(filteredVideos);
   })
   //post method
   .post(function (req, res) {
