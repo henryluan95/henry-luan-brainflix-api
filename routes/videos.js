@@ -3,7 +3,6 @@ const { v4: uuid } = require("uuid");
 const fs = require("fs");
 const router = express.Router();
 const { readVideos, writeVideos } = require("../utilities/utilities");
-const { channel } = require("diagnostics_channel");
 
 //Set up a route for /videos endpoint -- get and post
 router
