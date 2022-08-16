@@ -41,7 +41,7 @@ router
       id: uuid(),
     };
     //add data to existing data
-    videos.unshift(newVideo);
+    videos.push(newVideo);
     //write data to existing file
     writeVideos(videos);
     //send back a response
@@ -82,7 +82,7 @@ router.post("/:id/comments", (req, res) => {
     timestamp: +new Date(),
   };
   //modify the videos array
-  videos[indexOfCurrentVideo].comments.push(newComment);
+  videos[indexOfCurrentVideo].comments.unshift(newComment);
   //write it into our data
   writeVideos(videos);
   //send back a response of newComment
