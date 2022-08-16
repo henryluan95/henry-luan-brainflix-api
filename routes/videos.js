@@ -41,7 +41,7 @@ router
       id: uuid(),
     };
     //add data to existing data
-    videos.push(newVideo);
+    videos.unshift(newVideo);
     //write data to existing file
     writeVideos(videos);
     //send back a response
