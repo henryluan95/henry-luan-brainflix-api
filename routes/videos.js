@@ -31,7 +31,8 @@ router
     const newVideo = {
       ...req.body,
       channel: "Scotty Cranmer",
-      image: "http://localhost:8080/Upload-video-preview.jpg",
+      image:
+        "https://henry-luan-brainflix.herokuapp.com/Upload-video-preview.jpg",
       views: "0",
       likes: "0",
       duration: "4:20",
