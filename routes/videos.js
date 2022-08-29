@@ -4,8 +4,6 @@ const fs = require("fs");
 const router = express.Router();
 const { readVideos, writeVideos } = require("../utilities/utilities");
 
-app.use(express.static(__dirname + "/images"));
-
 //Set up a route for /videos endpoint -- get and post
 router
   .route("/")
