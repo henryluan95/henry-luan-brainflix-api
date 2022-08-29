@@ -4,6 +4,8 @@ const fs = require("fs");
 const router = express.Router();
 const { readVideos, writeVideos } = require("../utilities/utilities");
 
+app.use(express.static(__dirname + "/images"));
+
 //Set up a route for /videos endpoint -- get and post
 router
   .route("/")
@@ -32,7 +34,7 @@ router
       ...req.body,
       channel: "Scotty Cranmer",
       image:
-        "https://henry-luan-brainflix.herokuapp.com/images/Upload-video-preview.jpg",
+        "https://henry-luan-brainflix.herokuapp.com/Upload-video-preview.jpg",
       views: "0",
       likes: "0",
       duration: "4:20",
