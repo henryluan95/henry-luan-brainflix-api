@@ -32,7 +32,7 @@ router
       ...req.body,
       channel: "Scotty Cranmer",
       image:
-        "https://henry-luan-brainflix.herokuapp.com/Upload-video-preview.jpg",
+        "https://henry-luan-brainflix-api.herokuapp.com/Upload-video-preview.jpg",
       views: "0",
       likes: "0",
       duration: "4:20",
